@@ -12,7 +12,7 @@ function Login() {
         const name = document.getElementById('name-input').value;
         const password = document.getElementById('password-input').value;
     
-        fetch('http://localhost:3001/login', {
+        fetch(`${process.env.REACT_APP_HOST}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

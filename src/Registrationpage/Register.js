@@ -9,7 +9,7 @@ function Register() {
         const name = document.getElementById('name-input').value;
         const password = document.getElementById('password-input').value;
 
-        fetch('http://localhost:3001/addname', {
+        fetch(`${process.env.REACT_APP_HOST}/addname`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

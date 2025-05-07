@@ -3,7 +3,8 @@ import { useLocation } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import './Chatpage.css';
 
-const socket = io('http://localhost:3001');
+
+const socket = io(`${process.env.REACT_APP_HOST}`);
 
 function Chatpage() {
     const location = useLocation();
@@ -22,7 +23,7 @@ function Chatpage() {
     
         // For admin: fetch list of users
         if (userId === 1) {
-            fetch('http://localhost:3001/')
+            fetch(`${process.env.REACT_APP_HOST}`)
                 .then(res => res.json())
                 .then(data => {
                     const nonAdminUsers = data.filter(user => user.id !== 1);
@@ -71,7 +72,7 @@ function Chatpage() {
         const fetchMessages = async () => {
             if (userId === 1 && selectedUserId) {
                 try {
-                    const res = await fetch(`http://localhost:3001/messages/conversation/${userId}/${selectedUserId}`);
+                    const res = await fetch(`${process.env.REACT_APP_HOST}/messages/conversation/${userId}/${selectedUserId}`);
                     const data = await res.json();
                     setMessages(data.map(msg => ({
                         message: msg.content,
@@ -90,7 +91,7 @@ function Chatpage() {
         const fetchUserMessages = async () => {
             if (userId && userId !== 1) {
                 try {
-                    const res = await fetch(`http://localhost:3001/messages/conversation/${userId}/1`);
+                    const res = await fetch(`${process.env.REACT_APP_HOST}/messages/conversation/${userId}/1`);
                     const data = await res.json();
                     setMessages(data.map(msg => ({
                         message: msg.content,
