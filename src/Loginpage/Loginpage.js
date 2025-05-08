@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import './Loginpage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-
 function Login() {
     const navigate = useNavigate();
 
@@ -60,7 +59,7 @@ function Login() {
                             gap: '20px' }}>
 
                                 <Box sx={{ alignSelf: 'flex-start', cursor: 'pointer' , height: '20%' }}>
-        <FontAwesomeIcon icon={faArrowLeft} onClick={() => (window.location.href = '/')} />
+        <FontAwesomeIcon icon={faArrowLeft} onClick={() => navigate('/')} />
     </Box>
                         <Box 
                         sx={{ 

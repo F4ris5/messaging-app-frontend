@@ -1,9 +1,12 @@
 // filepath: d:\Coding\message-app\frontend\src\Homepage\Homepage.js
 import { Box, Button, Grid } from '@mui/material';
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Homepage.css';
 
 function Homepage() {
+    const navigate = useNavigate();
+
     return (
         <div className="container">
             <div className='scrolling-background'>
@@ -47,7 +50,7 @@ function Homepage() {
                                 color: 'white', fontFamily: 'Quicksand, sans-serif;' 
                                 }}
                             >What's said here stays here</Box>
-                        <Button onClick={() => (window.location.href = '/register')}
+                        <Button onClick={() => navigate('/register')}
                             sx={{
                                 backgroundColor: '#303030',
                                 color: 'white',
@@ -59,7 +62,7 @@ function Homepage() {
                                 padding: '10px 20px',
                             }}
                             >Register</Button>
-                        <Button onClick={() => (window.location.href = '/login')}
+                        <Button onClick={() => navigate('/login')}
                         sx={{
                             backgroundColor: '#303030',
                             color: 'white',

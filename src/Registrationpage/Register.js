@@ -3,8 +3,9 @@ import * as React from 'react';
 import './Register.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-
+import { useNavigate } from 'react-router-dom';
 function Register() {
+    const navigate = useNavigate();
     const handleRegister = () => {
         const name = document.getElementById('name-input').value;
         const password = document.getElementById('password-input').value;
@@ -56,7 +57,7 @@ function Register() {
                             gap: '20px' }}>
                         
                     <Box sx={{ alignSelf: 'flex-start', cursor: 'pointer' , height: '20%' }}>
-                        <FontAwesomeIcon icon={faArrowLeft} onClick={() => (window.location.href = '/')} />
+                        <FontAwesomeIcon icon={faArrowLeft} onClick={() => navigate('/')} />
                     </Box>
                         <Box 
                         sx={{ 
