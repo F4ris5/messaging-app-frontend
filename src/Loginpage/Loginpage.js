@@ -11,6 +11,7 @@ function Login() {
         const name = document.getElementById('name-input').value;
         const password = document.getElementById('password-input').value;
     
+        // validate input
         fetch(`${process.env.REACT_APP_HOST}/login`, {
             method: 'POST',
             headers: {
@@ -24,7 +25,6 @@ function Login() {
         })
         .then(data => {
             console.log('Login successful:', data);
-            // Navigate to chat and pass user ID
             navigate('/chat', { state: { userId: data.user.id } });
         })
         .catch(error => {
@@ -42,8 +42,7 @@ function Login() {
                         display: 'flex', 
                         justifyContent: 'center', 
                         alignItems: 'center', 
-                        }}>
-                            
+                        }}>  
 
                     <Grid item xs={12} md={6} 
                         sx={{ 
@@ -58,15 +57,17 @@ function Login() {
                             borderRadius: '10px', 
                             gap: '20px' }}>
 
-                                <Box sx={{ alignSelf: 'flex-start', cursor: 'pointer' , height: '20%' }}>
-        <FontAwesomeIcon icon={faArrowLeft} onClick={() => navigate('/')} />
-    </Box>
+                        <Box sx={{ alignSelf: 'flex-start', cursor: 'pointer' , height: '20%' }}>
+                            <FontAwesomeIcon icon={faArrowLeft} onClick={() => navigate('/')} />
+                        </Box>
                         <Box 
                         sx={{ 
                             fontSize: '2rem', 
                             marginBottom: '20px',
                             fontFamily: 'Quicksand, sans-serif',
-                            }}>Login</Box>
+                            }}>
+                                Login
+                        </Box>
                         <TextField id="name-input" label="Name" variant="outlined" fullWidth />
                         <TextField id="password-input" label="Password" type="password" variant="outlined" fullWidth />
                         <Button variant="contained" color="primary" onClick={handleLogin} 
@@ -79,7 +80,9 @@ function Login() {
                                     color: 'black',
                                 },
                                 padding: '10px 20px',
-                        }}>Confirm</Button>
+                        }}>
+                            Confirm
+                        </Button>
                     </Grid>
                 </Grid>
             </div>

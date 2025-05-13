@@ -4,8 +4,11 @@ import './Register.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+
 function Register() {
     const navigate = useNavigate();
+
+    // handle registration
     const handleRegister = () => {
         const name = document.getElementById('name-input').value;
         const password = document.getElementById('password-input').value;
@@ -55,16 +58,17 @@ function Register() {
                             padding: '20px', 
                             borderRadius: '10px', 
                             gap: '20px' }}>
-                        
-                    <Box sx={{ alignSelf: 'flex-start', cursor: 'pointer' , height: '20%' }}>
-                        <FontAwesomeIcon icon={faArrowLeft} onClick={() => navigate('/')} />
-                    </Box>
+                        <Box sx={{ alignSelf: 'flex-start', cursor: 'pointer' , height: '20%' }}>
+                            <FontAwesomeIcon icon={faArrowLeft} onClick={() => navigate('/')} />
+                        </Box>
                         <Box 
                         sx={{ 
                             fontSize: '2rem', 
                             marginBottom: '20px',
                             fontFamily: 'Quicksand, sans-serif',
-                            }}>Register</Box>
+                            }}>
+                                Register
+                        </Box>
                         <TextField id="name-input" label="Name" variant="outlined" fullWidth />
                         <TextField id="password-input" label="Password" type="password" variant="outlined" fullWidth />
                         <Button variant="contained" color="primary" onClick={handleRegister} 
@@ -77,7 +81,9 @@ function Register() {
                                     color: 'black',
                                 },
                                 padding: '10px 20px',
-                        }}>Confirm</Button>
+                        }}>
+                            Confirm
+                        </Button>
                     </Grid>
                 </Grid>
             </div>

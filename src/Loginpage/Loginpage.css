@@ -1,7 +1,7 @@
 .container {
     overflow: hidden;
-    width: 100vw; /* Ensures container does not overflow */
-    height: 100vh; /* Ensures container does not overflow */
+    width: 100vw;
+    height: 100vh;
 }
 
 .scrolling-background {

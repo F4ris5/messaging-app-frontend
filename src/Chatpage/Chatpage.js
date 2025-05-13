@@ -2,26 +2,26 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import './Chatpage.css';
-
-
 const socket = io(`${process.env.REACT_APP_HOST}`);
 
 function Chatpage() {
     const location = useLocation();
     const userId = location.state?.userId;
-    const adminId = 1;
-
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     const [selectedUserId, setSelectedUserId] = useState(null);
     const [userList, setUserList] = useState([]);
+    const [isTyping, setIsTyping] = useState(false);
+    const typingTimeoutRef = useRef(null);
+    const messagesEndRef = useRef(null);
 
+    // check if userId is present
     useEffect(() => {
         if (!userId) return;
     
         socket.emit('join', userId);
     
-        // For admin: fetch list of users
+        // fetches list of users
         if (userId === 1) {
             fetch(`${process.env.REACT_APP_HOST}`)
                 .then(res => res.json())
@@ -32,32 +32,34 @@ function Chatpage() {
                 .catch(err => console.error('Failed to fetch users:', err));
         }
     
+        // fetches messages for the user
         socket.on('receive_message', (data) => {
             console.log('Received:', data);
             setMessages((prev) => [...prev, {
                 message: data.message,
-                fromSelf: data.senderId === userId // verify this field exists
+                fromSelf: data.senderId === userId
             }]);
         });
-        
-    
+
         return () => {
             socket.off('receive_message');
         };
     }, [userId]);
     
-    
-
+    // handle sent messages
     const handleSend = () => {
         if (message.trim()) {
+            // check if userId is present or admin
             const isAdmin = userId === 1;
             const receiverId = isAdmin ? selectedUserId : 1;
     
+            // check if receiverId is present (for admin)
             if (isAdmin && !selectedUserId) {
                 alert("Select a user to chat with.");
                 return;
             }
-    
+
+            // send message to the backend
             socket.emit('send_message', {
                 senderId: userId,
                 receiverId,
@@ -68,6 +70,7 @@ function Chatpage() {
         }
     };
     
+    // fetches messages for the selected user (only for admin)
     useEffect(() => {
         const fetchMessages = async () => {
             if (userId === 1 && selectedUserId) {
@@ -87,6 +90,7 @@ function Chatpage() {
         fetchMessages();
     }, [selectedUserId, userId]);
     
+    // fetches messages for the user
     useEffect(() => {
         const fetchUserMessages = async () => {
             if (userId && userId !== 1) {
@@ -105,11 +109,8 @@ function Chatpage() {
     
         fetchUserMessages();
     }, [userId]);
-    
 
-    const [isTyping, setIsTyping] = useState(false);
-    const typingTimeoutRef = useRef(null);
-
+    // handle typing indicator
     useEffect(() => {
         if (!userId) return;
     
@@ -128,9 +129,7 @@ function Chatpage() {
         };
     }, [userId]);
     
-
-    const messagesEndRef = useRef(null);
-
+    //  below is the part that auto-scrolls to the bottom of the chat
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
@@ -142,7 +141,7 @@ function Chatpage() {
     return (
        
         <div style={{ display: 'flex', height: '100vh', backgroundImage: 'linear-gradient(#080808, #212121)', }}>
-            {/* Sidebar (only for userId === 1) */}
+            {/* sidebar for admin only */}
             {userId === 1 && (
                 <div style={{ width: '250px', borderRight: '1px solid #ccc', padding: '1rem' }}>
                     <h3 style={{ color: 'white' }}>Select User</h3>
@@ -162,9 +161,11 @@ function Chatpage() {
                 </div>
             )}
     
-            {/* Main Chat Area */}
+            {/* main chat area */}
             <div style={{ flex: 1, padding: '1rem', display: 'flex', flexDirection: 'column' }}>
                 <h2 style={{ color: 'white'}}>Chat</h2>
+
+                {/* chat messages */}
                 <div className='chat-scroll-area' style={{ flex: 1, overflowY: 'auto', marginBottom: '1rem' }}>
                     {messages.map((msg, i) => (
                         <div key={i} style={{ textAlign: msg.fromSelf ? 'right' : 'left', marginBottom: '0.5rem' }}>
@@ -184,19 +185,15 @@ function Chatpage() {
                     <div ref={messagesEndRef} />
                 </div>
 
+                {/* typing indicator */}
                 {isTyping && (
                     <div style={{ marginBottom: '0.5rem', fontStyle: 'italic', color: '#ccc' }}>
                         {userId === 1 ? 'User is typing...' : 'Admin is typing...'}
                     </div>
                 )}
 
+                {/* message input */}
                 <div style={{ display: 'flex', gap: '0.5rem' }}>
-                    {/* <input
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        style={{ flex: 1, padding: '0.5rem' }}
-                        placeholder="Type your message..."
-                    /> */}
                     <input
                         value={message}
                         onChange={(e) => {

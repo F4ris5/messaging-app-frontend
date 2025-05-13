@@ -1,10 +1,10 @@
-// filepath: d:\Coding\message-app\frontend\src\Homepage\Homepage.js
 import { Box, Button, Grid } from '@mui/material';
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Homepage.css';
 
 function Homepage() {
+
     const navigate = useNavigate();
 
     return (
