@@ -1,8 +1,15 @@
 <!-- filepath: d:\Coding\message-app\frontend\public\404.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta http-equiv="refresh" content="0; URL=./index.html" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 - Page Not Found</title>
+    <script>
+      // The script redirects to index.html, which will allow React Router to take over.
+      // This handles the case where the user refreshes on a sub-page.
+      window.location.replace("/messaging-app-frontend/index.html");
+    </script>
   </head>
   <body>
   </body>
